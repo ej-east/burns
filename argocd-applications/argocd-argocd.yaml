@@ -24,7 +24,6 @@ spec:
       - ServerSideApply=true
     managedNamespaceMetadata:
       labels:
-        secrets.elijah.fyi/onepassword: "enabled"
         external-secrets.elijah.fyi/onepassword: "enabled"
     automated:
       prune: true
