@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: "elijah.fyi"
   dnsNames:
+    - "elijah.fyi"
     - "*.elijah.fyi"
