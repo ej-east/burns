@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: renovate
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/renovatebot/charts
+      chart: renovate
+      targetRevision: 46.103.0
+      helm:
+        valueFiles:
+          - $values/configurations/renovate/values.yaml
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      path: manifests/renovate
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: renovate
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    managedNamespaceMetadata:
+      labels:
+        external-secrets.elijah.fyi/onepassword: "enabled"
+    automated:
+      prune: true
+      selfHeal: true

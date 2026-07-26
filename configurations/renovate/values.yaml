@@ -1,0 +1,32 @@
+cronjob:
+  schedule: "0 */4 * * *"
+  concurrencyPolicy: Forbid
+  timeZone: "America/New_York"
+
+  pod:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
+    env:
+      LOG_LEVEL: info
+      NODE_OPTIONS: "--max-old-space-size=768"
+
+existingSecret: renovate-secret
+
+renovate:
+  config: |
+    {
+      "platform": "github",
+      "onboarding": true,
+      "onboardingConfig": {
+        "extends": ["config:recommended"]
+      },
+      "repositories": [
+        "ej-east/burns",
+        "ej-east/redoubt"
+     ],
+      "dependencyDashboard": true,
+    }
