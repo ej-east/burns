@@ -1,22 +1,39 @@
 ingressClass:
-  enabled: true 
-  isDefaultClass: false 
+  enabled: true
+  isDefaultClass: false
   name: internal
 
 providers:
   kubernetesIngress:
-    enabled: true 
-    ingressClass: internal 
+    enabled: true
+    ingressClass: internal
     publishedService:
-      enabled: true 
+      enabled: true
   kubernetesCRD:
-    enabled: true 
+    enabled: true
     labelSelector: "traefik-instance=internal"
 
+ports:
+  web:
+    port: 8000
+    exposedPort: 80
+    expose:
+      default: true
+    redirectTo:
+      port: websecure
+  websecure:
+    port: 8443
+    exposedPort: 443
+    expose:
+      default: true
+    tls:
+      enabled: true
 
 service:
-  type: LoadBalancer 
+  type: LoadBalancer
   spec:
-    loadBalancerClass: tailscale 
+    loadBalancerClass: tailscale
+    allocateLoadBalancerNodePorts: false
   annotations:
     tailscale.com/hostname: k8s-internal
+    tailscale.com/tags: "tag:k8s-internal"
