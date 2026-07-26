@@ -15,9 +15,9 @@ providers:
 
 ports:
   websecure:
-    nodeport: 30443
+    nodePort: 30443
   web:
-    nodeport: 30080
+    nodePort: 30080
 
 service:
   type: NodePort
