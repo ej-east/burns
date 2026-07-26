@@ -13,23 +13,10 @@ providers:
     enabled: true 
     labelSelector: "traefik-instance=internal"
 
-ports:
-  websecure:
-    nodePort: 30443
-    proxyProtocol:
-      trustedIPs:
-        - 10.99.0.1/32
-    forwardedHeaders:
-      trustedIPs:
-        - 10.99.0.1/32
-  web:
-    nodePort: 30080
-    proxyProtocol:
-      trustedIPs:
-        - 10.99.0.1/32
-    forwardedHeaders:
-      trustedIPs:
-        - 10.99.0.1/32
 
 service:
-  type: NodePort
+  type: LoadBalancer 
+  spec:
+    loadBalancerClass: tailscale 
+  annotations:
+    tailscale.com/hostname: k8s-internal
