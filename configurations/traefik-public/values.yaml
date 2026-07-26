@@ -1,0 +1,23 @@
+ingressClass:
+  enabled: true 
+  isDefaultClass: false 
+  name: public
+
+providers:
+  kubernetesIngress:
+    enabled: true 
+    ingressClass: public 
+    publishedService:
+      enabled: true 
+  kubernetesCRD:
+    enabled: true 
+    labelSelector: "traefik-instance=public"
+
+ports:
+  websecure:
+    nodeport: 30443
+  web:
+    nodeport: 30080
+
+service:
+  type: NodePort
