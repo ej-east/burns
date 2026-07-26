@@ -1,3 +1,12 @@
 configs:
   params:
     server.insecure: true
+  cm:
+    url: https://argocd.internal.elijah.fyi
+    oidc.config: | 
+      name: Authentik 
+      issuer: https://idp.elijah.fyi/application/o/argo-cd/
+      clientID: $argocd-secrets:client_id
+      clientSecret: $argocd-secrets:client_secret
+    rbac:
+      policy.csv: "g, sso_argocd_admin, role:admin \n"
