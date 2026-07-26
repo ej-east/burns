@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: umami
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: manifests/umami/
+    repoURL: https://github.com/ej-east/burns
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: umami
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    managedNamespaceMetadata:
+      labels:
+        external-secrets.elijah.fyi/onepassword: "enabled"
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami
+  namespace: umami
+  labels:
+    app: umami
+spec:
+  selector:
+    matchLabels:
+      app: umami
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: umami
+      labels:
+        app: umami
+    spec:
+      containers:
+        - name: umami
+          image: ghcr.io/umami-software/umami:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 150Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_URL
+                  name: umami-secrets
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: secret_key
+                  name: umami-secrets
+          ports:
+            - containerPort: 3000
+              name: umami
+      restartPolicy: Always
