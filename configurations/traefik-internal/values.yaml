@@ -1,0 +1,35 @@
+ingressClass:
+  enabled: true 
+  isDefaultClass: false 
+  name: internal
+
+providers:
+  kubernetesIngress:
+    enabled: true 
+    ingressClass: internal 
+    publishedService:
+      enabled: true 
+  kubernetesCRD:
+    enabled: true 
+    labelSelector: "traefik-instance=internal"
+
+ports:
+  websecure:
+    nodePort: 30443
+    proxyProtocol:
+      trustedIPs:
+        - 10.99.0.1/32
+    forwardedHeaders:
+      trustedIPs:
+        - 10.99.0.1/32
+  web:
+    nodePort: 30080
+    proxyProtocol:
+      trustedIPs:
+        - 10.99.0.1/32
+    forwardedHeaders:
+      trustedIPs:
+        - 10.99.0.1/32
+
+service:
+  type: NodePort
