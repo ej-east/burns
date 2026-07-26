@@ -1,0 +1,26 @@
+authentik:
+  secret_key: file:///secrets/secret_key
+  postgresql:
+    password: file:///secrets/postgresql_password
+    host: file:///secrets/postgresql_host
+    port: file:///secrets/postgresql_port
+    user: file:///secrets/postgresql_username
+    name: file:///secrets/postgresql_name
+server:
+  volumes:
+    - name: secrets
+      secret:
+        secretName: authentik-secrets
+  volumeMounts:
+    - name: secrets
+      mountPath: /secrets
+      readOnly: true
+worker:
+  volumes:
+    - name: secrets
+      secret:
+        secretName: authentik-secrets
+  volumeMounts:
+    - name: secrets
+      mountPath: /secrets
+      readOnly: true
