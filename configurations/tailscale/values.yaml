@@ -1,0 +1,5 @@
+proxyConfig:
+  defaultTags: "tag:k8s-internal"
+
+apiServerProxyConfig:
+  mode: true
