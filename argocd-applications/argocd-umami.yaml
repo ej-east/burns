@@ -18,6 +18,8 @@ spec:
     managedNamespaceMetadata:
       labels:
         external-secrets.elijah.fyi/onepassword: "enabled"
+        istio.io/dataplane-mode: ambient
+        istio-injection: disabled
     automated:
       prune: true
       selfHeal: true
