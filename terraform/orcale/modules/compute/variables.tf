@@ -67,6 +67,7 @@ variable "vm_storage" {
 variable "vm_ssh_key" {
   description = "Public SSH Key for access"
   type        = string
+  sensitive   = true
 }
 
 variable "vm_image" {

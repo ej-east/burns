@@ -47,6 +47,7 @@ variable "private_key_path" {
 variable "access_ip_address" {
   description = "IP address that has SSH access"
   type        = string
+  sensitive   = true
 }
 
 variable "vcn_cidr" {
