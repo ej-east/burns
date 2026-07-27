@@ -9,12 +9,9 @@
   "dependencyDashboard": true,
   "pinDigests": true,
   "minimumReleaseAge": "3 days",
+  "osvVulnerabilityAlerts": true,
 
-  "separateMajorMinor": false,
-  "separateMultipleMajor": false,
-  "separateMinorPatch": false,
-
-  "prConcurrentLimit": 0,
+  "prConcurrentLimit": 10,
   "prHourlyLimit": 0,
   "rebaseWhen": "behind-base-branch",
 
@@ -28,26 +25,39 @@
     "managerFilePatterns": ["/values.*\\.ya?ml$/"]
   },
 
-  "ignorePaths": ["**/node_modules/**", "**/.git/**"],
-
   "vulnerabilityAlerts": {
-    "schedule": ["at any time"],
-    "groupName": null,
     "labels": ["security"]
   },
 
   "packageRules": [
     {
+      "description": "Everything non-breaking in one PR",
       "matchPackageNames": ["*"],
-      "groupName": "all dependencies",
-      "groupSlug": "all",
-      "labels": ["dependencies"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "addLabels": ["dependencies"]
     },
     {
+      "description": "Digest bumps are noisy - keep them separate",
+      "matchPackageNames": ["*"],
+      "matchUpdateTypes": ["digest"],
+      "groupName": "all digest updates",
+      "groupSlug": "all-digest",
+      "addLabels": ["dependencies", "digest"]
+    },
+    {
+      "description": "Majors get their own PR, gated behind the dashboard",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "addLabels": ["dependencies", "major"]
+    },
+    {
+      "description": "Initial digest pinning - one big bang, then never again",
       "matchUpdateTypes": ["pin", "pinDigest"],
-      "groupName": "pin all dependencies to digests",
+      "groupName": "pin dependencies to digests",
       "groupSlug": "pin-digests",
-      "labels": ["dependencies", "pin"]
+      "addLabels": ["dependencies", "pin"]
     }
   ]
 }
