@@ -1,1 +1,2 @@
-validationFailurePolicy: Fail
+base:
+  validationFailurePolicy: Fail
