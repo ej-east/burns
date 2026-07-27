@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: umami
-          image: ghcr.io/umami-software/umami:latest
+          image: ghcr.io/umami-software/umami:3.2
           imagePullPolicy: IfNotPresent
           resources:
             requests:
