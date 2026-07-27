@@ -1,1 +1,3 @@
 profile: ambient
+base:
+  validationFailurePolicy: Fail
