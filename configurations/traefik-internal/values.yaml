@@ -33,4 +33,3 @@ service:
   annotations:
     tailscale.com/hostname: k8s-internal
     tailscale.com/tags: "tag:k8s-internal"
-    tailscale.com/proxy-class: userspace
