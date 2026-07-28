@@ -13,6 +13,11 @@ spec:
     additionalConfig:
       plugins.security.audit.type: internal_opensearch
   security:
+    tls:
+      transport:
+        generate: true
+      http:
+        generate: true
     config:
       adminCredentialsSecret:
         name: opensearch-admin
