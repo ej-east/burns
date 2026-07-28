@@ -19,18 +19,28 @@ resources:
     memory: 256Mi
 luaScripts:
   normalize.lua: |
-    local numeric = { [0]="emerg", [1]="alert", [2]="crit", [3]="error", [4]="warning", [5]="notice", [6]="info", [7]="debug" }
+    local syslog = { [0]="emerg", [1]="alert", [2]="crit", [3]="error", [4]="warning", [5]="notice", [6]="info", [7]="debug" }
+    local marker = { I="info", W="warning", E="error", D="debug", F="fatal", T="trace"}
 
     function normalize(tag, ts, record)
       local lvl = record["level"]
-      if lvl ~= nil then
-        if type(lvl) == "number" then
-          record["log_level"] = numeric[lvl] or tostring(lvl)
-        else
-          record["log_level"] = string.lower(tostring(lvl))
-        end
-        record["level"] = nil
+      if lvl == nil then
+        return 0, ts, record
       end
+
+      if type(lvl) == "number" then
+        local sev
+        local m = record["message"]
+
+        if type(m) == "string" then
+          local c = string.match(m, "^%((%a)%)")
+          if c then sev = marker[string.upper(c)] end
+        end
+        record["log_level"] = sev or syslog[lvl] or tostring(lvl)
+      else
+        record["log_level"] = string.lower(tostring(lvl))
+      end
+      record["level"] = nil
       return 2, ts, record
     end
 config:
@@ -92,11 +102,20 @@ config:
         Exclude             user_agent (kube-probe|healthcheck)
 
     [FILTER]
+        Name                grep
+        Match               kube.*
+        Exclude message     helm template \. --name-template
+
+    [FILTER]
         Name                modify
         Match               kube.*
-        Rename              log     message
-        Rename              host    url_domain
+        Rename              log         message
+        Rename              msg         message
+        Rename              event       message
+        Rename              log_message message
+        Rename              host        url_domain
         Remove              time
+        Remove              timestamp
         Remove              _p
 
     [FILTER]
