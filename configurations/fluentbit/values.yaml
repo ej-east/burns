@@ -1,27 +1,40 @@
 # yaml-language-server: $schema=values.schema.json
 kind: DaemonSet
-
 logLevel: info
-
+testFramework:
+  enabled: false
 serviceAccount:
-  create: true 
+  create: true
   name: fluentbit
-
 rbac:
   create: true
   nodeAccess: false
   eventsAccess: false
-
 resources:
   requests:
-    cpu: 25m 
-    memory: 64Mi 
+    cpu: 25m
+    memory: 64Mi
   limits:
-    cpu: 200m 
-    memory: 256Mi 
+    cpu: 200m
+    memory: 256Mi
+luaScripts:
+  normalize.lua: |
+    local numeric = { [0]="emerg", [1]="alert", [2]="crit", [3]="error", [4]="warning", [5]="notice", [6]="info", [7]="debug" }
 
+    function normalize(tag, ts, record)
+      local lvl = record["level"]
+      if lvl ~= nil then
+        if type(lvl) == "number" then
+          record["log_level"] = numeric[lvl] or tostring(lvl)
+        else
+          record["log_level"] = string.lower(tostring(lvl))
+        end
+        record["level"] = nil
+      end
+      return 2, ts, record
+    end
 config:
-  service: | 
+  service: |
     [SERVICE]
         Daemon        Off
         Flush         1
@@ -33,7 +46,6 @@ config:
         HTTP_Listen   0.0.0.0
         HTTP_Port     2020
         Health_Check  On
-
   inputs: |
     [INPUT]
         Name              tail
@@ -44,7 +56,6 @@ config:
         Mem_Buf_Limit     10MB
         Skip_Long_Lines   On
         Refresh_Interval  10
-
   filters: |
     [FILTER]
         Name                kubernetes
@@ -88,6 +99,11 @@ config:
         Remove              time
         Remove              _p
 
+    [FILTER]
+        Name                lua
+        Match               kube.*
+        script              /fluent-bit/scripts/normalize.lua
+        call                normalize
   outputs: |
     [OUTPUT]
         Name   stdout
