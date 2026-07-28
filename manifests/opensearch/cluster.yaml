@@ -31,13 +31,13 @@ spec:
         memory: "1Gi"
   nodePools:
     - component: nodes
-      replicas: 1
+      replicas: 3
       roles:
         - "cluster_manager"
         - "data"
         - "ingest"
       jvm: "-Xms2g -Xmx2g"
-      diskSize: "200Gi"
+      diskSize: "50Gi"
       persistence:
         pvc:
           storageClass: local-path
