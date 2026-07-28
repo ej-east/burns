@@ -54,39 +54,39 @@ config:
         K8S-Logging.Parser  On
         K8S-Logging.Exclude On
         Kube_Tag_Prefix     kube.var.log.containers.
-    
-    [FILTER]
-      Name                  grep 
-      Match                 kube.*
-      Exclude               $kubernetes['namespace_name'] ^(fluentbit)$
-    
-    [FILTER]
-      Name                  grep 
-      Match                 kube.* 
-      Exclude               log_message ^\(I\) GET /health 
 
     [FILTER]
-      Name                  grep 
-      Match                 kube.* 
-      Exclude               event ^/-/health/ 
+        Name                grep
+        Match               kube.*
+        Exclude             $kubernetes['namespace_name'] ^(fluentbit)$
 
     [FILTER]
-      Name                  grep 
-      Match                 kube.* 
-      Exclude               log grpc\.health\.v1\.Health
+        Name                grep
+        Match               kube.*
+        Exclude             log_message ^\(I\) GET /health
 
     [FILTER]
-      Name                  grep 
-      Match                 kube.* 
-      Exclude               user_agent (kube-probe|healthcheck)
+        Name                grep
+        Match               kube.*
+        Exclude             event ^/-/health/
 
     [FILTER]
-      Name                  modify 
-      Match                 kube.*
-      Rename                log     message 
-      Rename                host    url_domain
-      Remove                time 
-      Remove                _p
+        Name                grep
+        Match               kube.*
+        Exclude             log grpc\.health\.v1\.Health
+
+    [FILTER]
+        Name                grep
+        Match               kube.*
+        Exclude             user_agent (kube-probe|healthcheck)
+
+    [FILTER]
+        Name                modify
+        Match               kube.*
+        Rename              log     message
+        Rename              host    url_domain
+        Remove              time
+        Remove              _p
 
   outputs: |
     [OUTPUT]
