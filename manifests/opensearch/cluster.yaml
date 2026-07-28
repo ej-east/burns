@@ -12,6 +12,7 @@ spec:
     drainDataNodes: false
     additionalConfig:
       plugins.security.audit.type: internal_opensearch
+      discovery.type: single-node
   security:
     tls:
       transport:
