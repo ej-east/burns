@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=values.schema.json
 connect:
   credentialsName: onepassword-connect-credentials
   serviceType: ClusterIP
