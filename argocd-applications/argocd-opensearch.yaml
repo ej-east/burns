@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opensearch
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      path: manifests/opensearch
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: opensearch
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    managedNamespaceMetadata:
+      labels:
+        external-secrets.elijah.fyi/onepassword: "enabled"
+        istio.io/dataplane-mode: ambient
+        istio-injection: disabled
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,51 @@
+apiVersion: opensearch.org/v1
+kind: OpenSearchCluster
+metadata:
+  name: burns
+  namespace: opensearch
+spec:
+  general:
+    httpPort: 9200
+    serviceName: burns
+    version: "3.3.0"
+    setVMMaxMapCount: false
+    drainDataNodes: false
+    additionalConfig:
+      plugins.security.audit.type: internal_opensearch
+  security:
+    config:
+      adminCredentialsSecret:
+        name: opensearch-admin
+  dashboards:
+    enable: true
+    version: "3.3.0"
+    replicas: 1
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "100m"
+      limits:
+        memory: "1Gi"
+  nodePools:
+    - component: nodes
+      replicas: 1
+      roles:
+        - "cluster_manager"
+        - "data"
+        - "ingest"
+      jvm: "-Xms2g -Xmx2g"
+      diskSize: "200Gi"
+      persistence:
+        pvc:
+          storageClass: local-path
+          accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          memory: "3Gi"
+          cpu: "500m"
+        limits:
+          memory: "4Gi"
+      additionalConfig:
+        cluster.routing.allocation.disk.watermark.low: "85%"
+        cluster.routing.allocation.disk.watermark.high: "90%"
+        cluster.routing.allocation.disk.watermark.flood_stage: "95%"
