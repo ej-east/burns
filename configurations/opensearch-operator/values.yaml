@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=values.schema.json
+manager:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 350Mi
+    limits:
+      cpu: 1000m
+      memory: 500Mi
