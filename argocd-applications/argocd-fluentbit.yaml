@@ -15,6 +15,9 @@ spec:
     - repoURL: https://github.com/ej-east/burns
       targetRevision: HEAD
       ref: values
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      path: manifests/fluentbit
   destination:
     server: "https://kubernetes.default.svc"
     namespace: fluentbit
