@@ -135,6 +135,7 @@ config:
         Rename              event       message
         Rename              log_message message
         Rename              host        url_domain
+        Rename              domain_url  url_domain
         Remove              time
         Remove              timestamp
         Remove              _p
