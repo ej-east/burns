@@ -1,19 +1,31 @@
 # yaml-language-server: $schema=values.schema.json
 ingressClass:
-  enabled: true 
-  isDefaultClass: false 
+  enabled: true
+  isDefaultClass: false
   name: public
-
 providers:
   kubernetesIngress:
-    enabled: true 
-    ingressClass: public 
+    enabled: true
+    ingressClass: public
     publishedService:
-      enabled: true 
+      enabled: true
   kubernetesCRD:
-    enabled: true 
+    enabled: true
     labelSelector: "traefik-instance=public"
-
+logs:
+  access:
+    enabled: true
+    format: json
+    fields:
+      general:
+        defaultmode: keep
+      headers:
+        defaultmode: drop
+        names:
+          User-Agent: keep
+          X-Forwarded-For: keep
+          Referer: keep
+          Authorization: redact
 ports:
   websecure:
     nodePort: 30443
@@ -31,6 +43,5 @@ ports:
     forwardedHeaders:
       trustedIPs:
         - 10.99.0.1/32
-
 service:
   type: NodePort
