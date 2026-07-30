@@ -12,20 +12,19 @@ providers:
   kubernetesCRD:
     enabled: true
     labelSelector: "traefik-instance=public"
-logs:
-  access:
-    enabled: true
-    format: json
-    fields:
-      general:
-        defaultmode: keep
-      headers:
-        defaultmode: drop
-        names:
-          User-Agent: keep
-          X-Forwarded-For: keep
-          Referer: keep
-          Authorization: redact
+accessLog:
+  enabled: true
+  format: json
+  fields:
+    general:
+      defaultmode: keep
+    headers:
+      defaultMode: drop
+      names:
+        User-Agent: keep
+        X-Forwarded-For: keep
+        Referer: keep
+        Authorization: redact
 ports:
   websecure:
     nodePort: 30443
