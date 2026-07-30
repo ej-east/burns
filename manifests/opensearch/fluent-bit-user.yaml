@@ -1,5 +1,5 @@
 apiVersion: opensearch.org/v1
-kind: OpenSearchUser
+kind: OpensearchUser
 metadata:
   name: fluent-bit
   namespace: opensearch
