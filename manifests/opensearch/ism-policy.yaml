@@ -36,4 +36,3 @@ spec:
     - name: delete
       actions:
         - delete: {}
-      transitions: []
