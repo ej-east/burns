@@ -9,4 +9,3 @@ spec:
   passwordFrom:
     name: opensearch-fluent-bit-writer
     key: password
-  backendRoles: []
