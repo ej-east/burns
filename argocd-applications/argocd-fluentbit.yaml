@@ -26,6 +26,7 @@ spec:
       labels:
         istio.io/dataplane-mode: ambient
         istio-injection: disabled
+        external-secrets.elijah.fyi/onepassword: "enabled"
     automated:
       prune: true
       selfHeal: true
