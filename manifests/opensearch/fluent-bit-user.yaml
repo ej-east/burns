@@ -1,0 +1,12 @@
+apiVersion: opensearch.org/v1
+kind: OpenSearchUser
+metadata:
+  name: fluent-bit
+  namespace: opensearch
+spec:
+  opensearchCluster:
+    name: burns
+  passwordFrom:
+    name: opensearch-fluent-bit-writer
+    key: password
+  backendRoles: []

@@ -1,0 +1,12 @@
+apiVersion: opensearch.org/v1
+kind: OpenSearchUserRoleBinding
+metadata:
+  name: fluent-bit
+  namespace: opensearch
+spec:
+  opensearchCluster:
+    name: burns
+  users:
+    - fluent-bit
+  roles:
+    - fluent-bit-writer

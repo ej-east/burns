@@ -1,0 +1,17 @@
+apiVersion: opensearch.org/v1
+kind: OpenSearchRole
+metadata:
+  name: fluent-bit-writer
+  namespace: opensearch
+spec:
+  opensearchCluster:
+    name: burns
+  clusterPermissions:
+    - cluster:monitor/main
+    - cluster_composite_ops
+  indexPermissions:
+    - indexPatterns:
+        - "logs*"
+      allowedActions:
+        - "write"
+        - "create_index"
