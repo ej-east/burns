@@ -28,17 +28,6 @@ env:
       secretKeyRef:
         name: opensearch-fluent-bit-writer
         key: password
-extraVolumes:
-  - name: os-ca
-    secret:
-      secretName: burns-ca
-      items:
-        - key: ca.crt
-          path: ca.crt
-extraVolumeMounts:
-  - name: os-ca
-    mountPath: /fluent-bit/certs
-    readOnly: true
 luaScripts:
   normalize.lua: |
     local syslog = { [0]="emerg", [1]="alert", [2]="crit", [3]="error", [4]="warning", [5]="notice", [6]="info", [7]="debug" }
@@ -167,10 +156,9 @@ config:
       HTTP_USER ${OS_USER}
       HTTP_Passwd ${OS_PASSWORD}
       tls On
-      tls.verify On
-      tls.ca_file /fluent-bit/ca.crt
+      tls.verify Off
       Index logs
-      Supress_Type_Name On
-      Logstash_Format OOoff
+      Suppress_Type_Name On
+      Logstash_Format Off
       Retry_Limit  5
       storage.total_limit_size 5G
