@@ -152,16 +152,17 @@ config:
         Format json_lines
         storage.total_limit_size 5G
     [OUTPUT]
-        Name opensearch
-        Match kube.*
-        Host burns.opensearch.svc.cluster.local
-        Port 9200
-        HTTP_USER ${OS_USER}
-        HTTP_Passwd ${OS_PASSWORD}
-        tls On
-        tls.verify Off
-        Index logs
-        Suppress_Type_Name On
-        Logstash_Format Off
-        Retry_Limit  5
+        Name                     opensearch
+        Match                    kube.*
+        Host                     burns.opensearch.svc.cluster.local
+        Port                     9200
+        HTTP_USER                ${OS_USER}
+        HTTP_Passwd              ${OS_PASSWORD}
+        tls                      On
+        tls.verify               Off
+        Index                    logs
+        Suppress_Type_Name       On
+        Logstash_Format          Off
+        Retry_Limit              5
         storage.total_limit_size 5G
+        Replace_Dots             On
