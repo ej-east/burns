@@ -166,3 +166,4 @@ config:
         Retry_Limit              5
         storage.total_limit_size 5G
         Replace_Dots             On
+        Trace_Error              On
