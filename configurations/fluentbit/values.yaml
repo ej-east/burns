@@ -29,6 +29,18 @@ env:
         name: opensearch-fluent-bit-writer
         key: password
 luaScripts:
+  flatten_scope.lua: |
+    function flatten_scope(tag, timestamp, record)
+      local s = record["scope"]
+      if type(s) == "table" then
+        record["scope"] = nil
+        for k,v in pairs(s) do
+          record["scope_" .. k] = v
+        end
+        return 2,timestamp, record
+      end
+      return 0, timestamp, record
+    end
   normalize.lua: |
     local syslog = { [0]="emerg", [1]="alert", [2]="crit", [3]="error", [4]="warning", [5]="notice", [6]="info", [7]="debug" }
     local marker = { I="info", W="warning", E="error", D="debug", F="fatal", T="trace"}
@@ -145,6 +157,11 @@ config:
         Match               kube.*
         script              /fluent-bit/scripts/normalize.lua
         call                normalize
+    [FILTER]
+        Name                lua
+        Match               kube.*
+        script              /fluent-bit/scripts/flatten_scope.lua
+        call                flatten_scope
   outputs: |
     [OUTPUT]
         Name   stdout
