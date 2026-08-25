@@ -11,7 +11,7 @@ spec:
     - hosts:
         - draw.elijah.fyi
   rules:
-    - host: drarw.elijah.fyi
+    - host: draw.elijah.fyi
       http:
         paths:
           - path: /
