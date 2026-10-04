@@ -1,0 +1,52 @@
+gitlabUrl: "https://gitlab.com"
+concurrent: 4
+checkInterval: 3
+rbac:
+  create: true
+serviceAccount:
+  create: true
+  name: gitlab-runner
+runners:
+  secret: gitlab-runner-token
+  config: |
+    [[runners]]
+      name = "ej-platform-local-k8s"
+      executor = "kubernetes"
+
+      [runners.kubernetes]
+        namespace = "gitlab-runner"
+
+        image = "alpine:3.22"
+
+        privileged = false
+
+        service_account = "gitlab-ci-job"
+
+        cpu_request = "250m"
+        cpu_limit = "2"
+
+        memory_request = "256Mi"
+        memory_limit = "4Gi"
+
+        helper_cpu_request = "100m"
+        helper_cpu_limit = "500m"
+
+        helper_memory_request = "128Mi"
+        helper_memory_limit = "512Mi"
+
+        ephemeral_storage_request = "1Gi"
+        ephemeral_storage_limit = "10Gi"
+
+        poll_timeout = 180
+
+        [runners.kubernetes.pod_labels]
+          "workload" = "gitlab-ci"
+metrics:
+  enabled: true
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi

@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitlab-runner
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.gitlab.io
+      chart: gitlab-runner
+      targetRevision: 0.1.13
+      helm:
+        valueFiles:
+          - $values/configurations/gitlab-runner/values.yaml
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://github.com/ej-east/burns
+      targetRevision: HEAD
+      path: manifests/gitlab-runner
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: gitlab-runner
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    managedNamespaceMetadata:
+      labels:
+        external-secrets.elijah.fyi/onepassword: "enabled"
+        istio.io/dataplane-mode: ambient
+        istio-injection: disabled
+    automated:
+      prune: true
+      selfHeal: true
