@@ -11,6 +11,7 @@ runners:
   config: |
     [[runners]]
       name = "ej-platform-local-k8s"
+      request_concurrency = 2
       executor = "kubernetes"
 
       [runners.kubernetes]
