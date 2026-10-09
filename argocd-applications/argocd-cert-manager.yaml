@@ -12,10 +12,10 @@ spec:
       helm:
         valueFiles:
           - $values/configurations/cert-manager/values.yaml
-    - repoURL: https://github.com/ej-east/burns
+    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns
       targetRevision: HEAD
       ref: values
-    - repoURL: https://github.com/ej-east/burns
+    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns
       targetRevision: HEAD
       path: manifests/cert-manager/elijah.fyi
   destination:
