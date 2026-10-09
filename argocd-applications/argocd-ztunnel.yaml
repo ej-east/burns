@@ -12,7 +12,7 @@ spec:
       helm:
         valueFiles:
           - $values/configurations/ztunnel/values.yaml
-    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns
+    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns.git
       targetRevision: HEAD
       ref: values
   destination:

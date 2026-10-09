@@ -12,10 +12,10 @@ spec:
       helm:
         valueFiles:
           - $values/configurations/fluentbit/values.yaml
-    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns
+    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns.git
       targetRevision: HEAD
       ref: values
-    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns
+    - repoURL: https://gitlab.com/ej-platform/kubernetes/burns.git
       targetRevision: HEAD
       path: manifests/fluentbit
   destination:

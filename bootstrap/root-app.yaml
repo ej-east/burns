@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://gitlab.com/ej-platform/kubernetes/burns
+    repoURL: https://gitlab.com/ej-platform/kubernetes/burns.git
     path: argocd-applications/
     targetRevision: HEAD
   syncPolicy:
