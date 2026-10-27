@@ -8,7 +8,7 @@ spec:
   sources:
     - repoURL: https://opensearch-project.github.io/opensearch-k8s-operator/
       chart: opensearch-operator
-      targetRevision: 3.0.2
+      targetRevision: 3.0.14
       helm:
         valueFiles:
           - $values/configurations/opensearch-operator/values.yaml
